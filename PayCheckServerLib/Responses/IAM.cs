@@ -53,8 +53,9 @@ namespace PayCheckServerLib.Responses
             Debugger.PrintInfo(sai);
             if (!(sai == "1272080" || sai == "2478210"))
             {
-                Debugger.PrintError("Auth is incorrect!");
-                return true;
+                //Debugger.PrintError("Auth is incorrect!");
+                //return true;
+                Debugger.PrintWarn("Auth is incorrect!")
             }
             var steamId = UserIdHelper.GetSteamIDFromAUTH(platform_token);
             Debugger.PrintInfo("User with SteamID try to log in: " + steamId);
