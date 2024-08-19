@@ -55,7 +55,7 @@ namespace PayCheckServerLib.Responses
             {
                 //Debugger.PrintError("Auth is incorrect!");
                 //return true;
-                Debugger.PrintWarn("Auth is incorrect!")
+                Debugger.PrintWarn("Auth is incorrect!");
             }
             var steamId = UserIdHelper.GetSteamIDFromAUTH(platform_token);
             Debugger.PrintInfo("User with SteamID try to log in: " + steamId);
