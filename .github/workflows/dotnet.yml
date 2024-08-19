@@ -59,16 +59,34 @@ jobs:
       - name: Variables
         id: vars
         run: echo sha_short=${GITHUB_SHA::7} >> $GITHUB_OUTPUT
-      - uses: actions/download-artifact@v3
+        
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
         with:
           path: artifacts
-      - run: for a in *; do zip -r "$a.zip" "$a"; done
+
+      - name: Copy artifacts
+        run: for a in *; do zip -r "$a.zip" "$a"; done
         working-directory: artifacts
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Development Build"
+        
+      #- uses: "marvinpinto/action-automatic-releases@latest"
+      #  with:
+      #    repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #    automatic_release_tag: "latest"
+      #    prerelease: true
+      #    title: "Development Build"
+      #    files: |
+      #      artifacts/*.zip
+            
+      - name: Release Files
+        uses: softprops/action-gh-release@v1
+        with: 
+          token: ${{ secrets.RELEASE_KEY }}
           files: |
             artifacts/*.zip
+          tag_name: commit-${{ steps.vars.outputs.sha_short }}
+          prerelease: true
+          name: Development Build ${{ steps.vars.outputs.sha_short }}
+          body: |
+            Commit ${{ steps.vars.outputs.sha_short }}
+          generate_release_notes: true
